@@ -33,7 +33,7 @@ export function Home() {
 
     const fetchData = await AsyncStorage.getItem(dataKey)
 
-    if(fetchData) {
+    if (fetchData) {
       const storage = JSON.parse(fetchData)
 
       setSearchListData(storage)
@@ -42,11 +42,21 @@ export function Home() {
   }
 
   function handleFilterLoginData() {
-    // Filter results inside data, save with setSearchListData
+    if (searchText === '' || !searchText) {
+      setSearchListData(data);
+      return;
+    };
+
+    const searchList = [...searchListData]
+    const filteredLoginData = searchList.filter(data => {
+      return data.service_name.includes(searchText)
+    })
+
+    setSearchListData(filteredLoginData)
   }
 
   function handleChangeInputText(text: string) {
-    // Update searchText value
+    setSearchText(text);
   }
 
   useFocusEffect(useCallback(() => {
